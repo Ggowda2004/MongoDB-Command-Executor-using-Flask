@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vehicle Management System — MongoDB Executor</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #fafafa; margin: 0; padding: 40px; }
+    textarea {
+      width: 80%; height: 140px; padding: 10px;
+      font-size: 15px; border-radius: 8px; border: 1px solid #bbb;
+    }
+    button {
+      padding: 10px 25px; font-size: 16px; border-radius: 8px;
+      cursor: pointer; background-color: #007bff; color: white; border: none;
+      margin-top: 10px;
+    }
+    button:hover { background-color: #0056b3; }
+    pre {
+      width: 80%; margin: 30px auto; text-align: left;
+      background: #f4f4f4; border-radius: 8px; padding: 15px;
+      font-size: 14px; overflow-x: auto;
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+  <h2>🚗 Vehicle Management — MongoDB Command Executor</h2>
+  <p>Type a MongoDB-style command and click Execute:</p>
+
+  <form id="cmdForm">
+    <textarea id="command" name="command"
+      placeholder='Example: db.Vehicles.find()'></textarea><br>
+    <button type="submit">Execute</button>
+  </form>
+
+  <pre id="output"></pre>
+
+  <script>
+    const form = document.getElementById("cmdForm");
+    const output = document.getElementById("output");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const command = formData.get("command");
+
+      if (!command.trim()) {
+        output.innerHTML = "<span class='error'>⚠️ Please enter a command.</span>";
+        return;
+      }
+
+      output.textContent = "⏳ Executing...";
+
+      try {
+        const res = await fetch("/run", {
+          method: "POST",
+          body: formData
+        });
+
+        if (!res.ok) {
+          output.innerHTML = `<span class='error'>❌ Server error (${res.status})</span>`;
+          return;
+        }
+
+        const data = await res.json();
+
+        if (data.status === "success") {
+          output.innerHTML = `<span class='success'>✅ Success:</span>\n` +
+            JSON.stringify(data.result, null, 2);
+        } else {
+          output.innerHTML = `<span class='error'>⚠️ Error:</span>\n` +
+            JSON.stringify(data.result, null, 2);
+        }
+
+      } catch (err) {
+        output.innerHTML = `<span class='error'>❌ Could not connect:\n${err}</span>`;
+      }
+    });
+  </script>
+
+</body>
+</html>
