@@ -1,47 +1,7 @@
-# 🐍 Python cache and compiled files
+#Python cache files
 __pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-*$py.class
-
-# 🧩 Virtual environment
-venv/
-ENV/
-env/
-.venv/
-.ENV/
-
-# 🧱 IDE & Editor folders
-.vscode/
-.idea/
-
-# 🧰 OS-specific files
-.DS_Store
-Thumbs.db
-
-# 📦 Dependency and package build folders
-build/
-dist/
-*.egg-info/
-
-# 🧪 Logs and temporary files
-*.log
-*.pot
-*.mo
 *.pyc
-*.tmp
-*.bak
-
-# 🧠 Jupyter notebooks checkpoints
-.ipynb_checkpoints/
-
-# ⚙️ Flask/Mongo specific
-instance/
-.mongorc.js
-*.pkl
-
-# 🚀 Environment variables
+venv/
 .env
-.env.local
-.env.*.local
+#log files
+*.log
